@@ -52,8 +52,7 @@ public class Main {
         .processValues(new DeduplicationProcessorSupplier(), "deduplication-store")
         .to(configurationManager.getString("OUTPUT_TOPIC"), Produced.with(Serdes.String(), jsonSerde));
 
-        try (KafkaStreams streams = new KafkaStreams(builder.build(), props)) {
-            streams.start();
-        }
+        KafkaStreams streams = new KafkaStreams(builder.build(), props);
+        streams.start();
     }
 }
