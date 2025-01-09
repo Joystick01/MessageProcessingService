@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 
 import java.time.Instant;
-import java.time.LocalDateTime;
 
 public class TimestampExtractor implements org.apache.kafka.streams.processor.TimestampExtractor {
 
