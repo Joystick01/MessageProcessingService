@@ -1,9 +1,13 @@
 package dev.knoepfle;
 
+import org.slf4j.Logger;
+
 import java.util.HashMap;
 import java.util.Map;
 
 public class ConfigurationManager {
+
+    private static Logger logger = org.slf4j.LoggerFactory.getLogger(ConfigurationManager.class);
 
     private static ConfigurationManager instance;
     private final Map<String, Object> configuration = new HashMap<>();
@@ -19,6 +23,8 @@ public class ConfigurationManager {
         for (String parameter : parameters) {
             configuration.put(parameter, System.getenv(parameter));
         }
+
+        logger.info("Configuration loaded: {}", configuration);
     }
 
     public static synchronized ConfigurationManager getInstance() {

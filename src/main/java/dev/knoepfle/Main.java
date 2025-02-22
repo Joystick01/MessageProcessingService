@@ -18,12 +18,18 @@ import org.apache.kafka.streams.kstream.Produced;
 import org.apache.kafka.streams.state.StoreBuilder;
 import org.apache.kafka.streams.state.Stores;
 import org.apache.kafka.streams.state.WindowStore;
+import org.slf4j.Logger;
 
 import java.time.Duration;
 import java.util.Properties;
 
 public class Main {
+
+    static final Logger logger = org.slf4j.LoggerFactory.getLogger(Main.class);
+
     public static void main(final String[] args) {
+
+        logger.info("Starting Message Deduplication Processor");
 
         ConfigurationManager configurationManager = ConfigurationManager.getInstance();
 

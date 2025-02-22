@@ -6,10 +6,13 @@ import org.apache.kafka.streams.processor.api.FixedKeyProcessorContext;
 import org.apache.kafka.streams.processor.api.FixedKeyRecord;
 import org.apache.kafka.streams.state.WindowStore;
 import org.apache.kafka.streams.state.WindowStoreIterator;
+import org.slf4j.Logger;
 
 import java.time.Duration;
 
 public class DeduplicationProcessor implements FixedKeyProcessor<String, JsonNode, JsonNode> {
+
+    private static Logger logger = org.slf4j.LoggerFactory.getLogger(DeduplicationProcessor.class);
 
     FixedKeyProcessorContext<String, JsonNode> context;
     WindowStore<Integer, Boolean> deduplicationStore;
@@ -26,6 +29,9 @@ public class DeduplicationProcessor implements FixedKeyProcessor<String, JsonNod
         final int hash = fixedKeyRecord.value().get("deduplicationHash").asInt();
         if (!isDuplicate(hash, fixedKeyRecord.timestamp())) {
             context.forward(fixedKeyRecord);
+        }
+        else {
+            logger.info("Dropping duplicate message with hash: " + hash);
         }
         deduplicationStore.put(hash, Boolean.TRUE, fixedKeyRecord.timestamp());
     }
